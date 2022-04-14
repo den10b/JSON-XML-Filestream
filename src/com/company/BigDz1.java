@@ -1,23 +1,22 @@
 package com.company;
 
-import org.json.simple.JSONObject;
-
 import javax.swing.filechooser.FileSystemView;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import java.io.*;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.nio.file.*;
+
+import static com.company.delete.delfile;
+import static com.company.json.*;
+import static com.company.txt.in_txt_file;
+import static com.company.txt.out_delete_txt;
+import static com.company.xml.XmlRead;
+import static com.company.xml.XmlWrite;
+import static com.company.zip.unzip;
+import static com.company.zip.zip2;
 
 public class BigDz1 {
 
@@ -79,123 +78,37 @@ public class BigDz1 {
 
         }
     }
-    public static void in_txt_file(String text) {
 
-        try(FileWriter writer = new FileWriter("notes3.txt", false))
-        {
-            // запись всей строки
-            writer.write(text);
-            // запись по символам
-            writer.append('\n');
-            writer.flush();
-        }
-        catch(IOException ex){
 
-            System.out.println(ex.getMessage());
-        }
-    }
-    public static void out_delete_txt() {
 
-        try(FileReader reader = new FileReader("notes3.txt"))
-        {
-            // читаем посимвольно
-            int c;
-            while((c=reader.read())!=-1){
 
-                System.out.print((char)c);
-            }
-        }
-        catch(IOException ex){
 
-            System.out.println(ex.getMessage());
-        }
-        delfile("notes3.txt");
-
-    }
-    public static void writeJsonSimpleDemo(String filename) throws Exception {
-        JSONObject sampleObject = new JSONObject();
-        sampleObject.put("name", "Stackabuser");
-        sampleObject.put("id", 1234);
-
-        Files.write(Paths.get(filename), sampleObject.toJSONString().getBytes());
-    }
-    public static void js_write(user USER) throws IOException {
-        FileOutputStream fos = new FileOutputStream("temp.json");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(USER);
-        oos.flush();
-        oos.close();
-    }
-    public static void js_read_del() throws Exception {
-        FileInputStream fis = new FileInputStream("temp.json");
-        ObjectInputStream oin = new ObjectInputStream(fis);
-        user ts = (user) oin.readObject();
-        System.out.println("name="+ts.name+" id="+ts.id);
-        delfile("temp.json");
-    }
-    public static void XmlWrite(String filename)
-    {
-        try {
-            File file = new File(filename);
-            JAXBContext context = JAXBContext.newInstance(dog.class);
-            Marshaller marshaller = context.createMarshaller();
-            dog dog2 = new dog(7, "dog_name");
-            marshaller.marshal(dog2, file);
-
-        } catch (JAXBException ex) {
-            ex.printStackTrace();
-        }
-    }
-    public static void XmlRead(String filename)
-    {
-    try {
-        File file = new File(filename);
-        JAXBContext context = JAXBContext.newInstance(dog.class);
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-        dog dog3 = (dog) unmarshaller.unmarshal(file);
-        System.out.println(dog3);
-
-    } catch (JAXBException ex) {
-        ex.printStackTrace();
-    }}
-    public static void zipdo() throws IOException{
-        Map<String, String> env = new HashMap<>();
-        env.put("create", "true");
-        Path path = Paths.get("test.zip");
-        URI uri = URI.create("jar:" + path.toUri());
-        try (FileSystem fs = FileSystems.newFileSystem(uri, env))
-        {
-            Path nf = fs.getPath("new.txt");
-            try (Writer writer = Files.newBufferedWriter(nf, StandardCharsets.UTF_8, StandardOpenOption.CREATE)) {
-                writer.write("hello");
-            }
-        }
-    }
-    public static void delfile(String filename)
-    {
-
-        File file = new File(filename);
-        if(file.delete()){
-            System.out.println("Файл был удален из корневой папки проекта");
-        }else System.out.println("Файл не был найден в корневой папке проекта");
-
-    }
 
     public static void main(String[] args) throws Exception {
 
         System.out.println(getInfo());
         printinfo();
+
         Scanner in = new Scanner(System.in);
         String string = in.nextLine();
         in_txt_file(string);
         out_delete_txt();
+
         String filen= "kek.json";
         writeJsonSimpleDemo(filen);
         user User1=new user("username",41231);
         js_write(User1);
         js_read_del();
+        delfile("temp.json");
+
         XmlWrite("xmlDogFile.xml");
         XmlRead("xmlDogFile.xml");
+        delfile("xmlDogFile.xml");
+
+        Scanner in2 = new Scanner(System.in);
+        String string2 = in2.nextLine();
+        zip2(string2);
+        unzip();
     }
 
 }
