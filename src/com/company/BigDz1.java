@@ -18,21 +18,12 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.nio.file.*;
-/**
- * Дисковые инструменты
- *
- * @author gu
- * @date 22 декабря 2017 г.
- */
+
 public class BigDz1 {
 
     private static DecimalFormat DECIMALFORMAT = new DecimalFormat("#.##");
 
-    /**
-     * Получить информацию об использовании диска
-     *
-     * @return
-     */
+
     public static List<Map<String, String>> getInfo() {
 
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
@@ -167,7 +158,7 @@ public class BigDz1 {
     } catch (JAXBException ex) {
         ex.printStackTrace();
     }}
-    public static void zipdo(){
+    public static void zipdo() throws IOException{
         Map<String, String> env = new HashMap<>();
         env.put("create", "true");
         Path path = Paths.get("test.zip");
