@@ -173,6 +173,7 @@ public class BigDz1 {
             // write JSON to file
             Jsoner.serialize(customer, writer);
 
+
             //close the writer
             writer.close();
 
