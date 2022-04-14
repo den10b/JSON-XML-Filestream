@@ -4,11 +4,13 @@ import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DecimalFormat;
 import java.util.*;
-
+import static com.company.delete.*;
 import static com.company.delete.delfile;
 import static com.company.json.*;
 import static com.company.txt.in_txt_file;
@@ -109,6 +111,10 @@ public class BigDz1 {
         String string2 = in2.nextLine();
         zip2(string2);
         unzip();
+        delfile("compressed.zip");
+        Path pathToBeDeleted = Paths.get("C:\\Users\\Den\\IdeaProjects\\First\\src\\unzipTest");
+        deleteDirectory(pathToBeDeleted.toFile());
+
     }
 
 }
