@@ -1,23 +1,23 @@
 package com.company;
 
+import org.json.simple.JSONObject;
+
 import javax.swing.filechooser.FileSystemView;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DecimalFormat;
 import java.util.*;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-
+import java.nio.file.*;
 /**
  * Дисковые инструменты
  *
@@ -118,71 +118,79 @@ public class BigDz1 {
 
             System.out.println(ex.getMessage());
         }
-        File file = new File("notes3.txt");
-        if(file.delete()){
-            System.out.println("notes3.txt файл был удален из корневой папки проекта");
-        }else System.out.println("Файл notes3.txt не был найден в корневой папке проекта");
+        delfile("notes3.txt");
 
     }
-    public void jsonwrite() {
+    public static void writeJsonSimpleDemo(String filename) throws Exception {
+        JSONObject sampleObject = new JSONObject();
+        sampleObject.put("name", "Stackabuser");
+        sampleObject.put("id", 1234);
+
+        Files.write(Paths.get(filename), sampleObject.toJSONString().getBytes());
+    }
+    public static void js_write(user USER) throws IOException {
+        FileOutputStream fos = new FileOutputStream("temp.json");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(USER);
+        oos.flush();
+        oos.close();
+    }
+    public static void js_read_del() throws Exception {
+        FileInputStream fis = new FileInputStream("temp.json");
+        ObjectInputStream oin = new ObjectInputStream(fis);
+        user ts = (user) oin.readObject();
+        System.out.println("name="+ts.name+" id="+ts.id);
+        delfile("temp.json");
+    }
+    public static void XmlWrite(String filename)
+    {
         try {
-            // create a writer
-            BufferedWriter writer = Files.newBufferedWriter(Paths.get("customer.json"));
+            File file = new File(filename);
+            JAXBContext context = JAXBContext.newInstance(dog.class);
+            Marshaller marshaller = context.createMarshaller();
+            dog dog2 = new dog(7, "dog_name");
+            marshaller.marshal(dog2, file);
 
-            // create customer object
-            JSONObject customer = new JSONObject();
-            customer.put("id", 1);
-            customer.put("name", "John Doe");
-            customer.put("email", "john.doe@example.com");
-            customer.put("age", 32);
-
-            // create address object
-            JSONObject address = new JSONObject();
-            address.put("street", "155 Middleville Road");
-            address.put("city", "New York");
-            address.put("state", "New York");
-            address.put("zipCode", 10045);
-
-            // add address to customer
-            customer.put("address", address);
-
-            // add customer payment methods
-            JSONArray pm = new JSONArray();
-            pm.addAll(Arrays.asList("PayPal", "Stripe"));
-            customer.put("paymentMethods", pm);
-
-            // create projects
-            JSONArray projects = new JSONArray();
-
-            // create 1st project
-            JSONObject p1 = new JSONObject();
-            p1.put("title", "Business Website");
-            p1.put("budget", 4500);
-
-            // create 2nd project
-            JSONObject p2 = new JSONObject();
-            p2.put("title", "Sales Dashboard");
-            p2.put("budget", 8500);
-
-            // add projects
-            projects.addAll(Arrays.asList(p1, p2));
-
-            // add projects to customer
-            customer.put("projects", projects);
-
-            // write JSON to file
-            Jsoner.serialize(customer, writer);
-
-
-            //close the writer
-            writer.close();
-
-        } catch (IOException ex) {
+        } catch (JAXBException ex) {
             ex.printStackTrace();
         }
     }
+    public static void XmlRead(String filename)
+    {
+    try {
+        File file = new File(filename);
+        JAXBContext context = JAXBContext.newInstance(dog.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        dog dog3 = (dog) unmarshaller.unmarshal(file);
+        System.out.println(dog3);
 
-    public static void main(String[] args) {
+    } catch (JAXBException ex) {
+        ex.printStackTrace();
+    }}
+    public static void zipdo(){
+        Map<String, String> env = new HashMap<>();
+        env.put("create", "true");
+        Path path = Paths.get("test.zip");
+        URI uri = URI.create("jar:" + path.toUri());
+        try (FileSystem fs = FileSystems.newFileSystem(uri, env))
+        {
+            Path nf = fs.getPath("new.txt");
+            try (Writer writer = Files.newBufferedWriter(nf, StandardCharsets.UTF_8, StandardOpenOption.CREATE)) {
+                writer.write("hello");
+            }
+        }
+    }
+    public static void delfile(String filename)
+    {
+
+        File file = new File(filename);
+        if(file.delete()){
+            System.out.println("Файл был удален из корневой папки проекта");
+        }else System.out.println("Файл не был найден в корневой папке проекта");
+
+    }
+
+    public static void main(String[] args) throws Exception {
 
         System.out.println(getInfo());
         printinfo();
@@ -190,9 +198,13 @@ public class BigDz1 {
         String string = in.nextLine();
         in_txt_file(string);
         out_delete_txt();
-
-
-
+        String filen= "kek.json";
+        writeJsonSimpleDemo(filen);
+        user User1=new user("username",41231);
+        js_write(User1);
+        js_read_del();
+        XmlWrite("xmlDogFile.xml");
+        XmlRead("xmlDogFile.xml");
     }
 
 }
