@@ -25,6 +25,7 @@ public class json {
         FileInputStream fis = new FileInputStream("temp.json");
         ObjectInputStream oin = new ObjectInputStream(fis);
         user ts = (user) oin.readObject();
+        System.out.println("Информация из JSON-файла:");
         System.out.println("name="+ts.name+" id="+ts.id);
         oin.close();
     }

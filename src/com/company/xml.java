@@ -21,7 +21,7 @@ public class xml {
         }
     }
     public static void XmlRead(String filename)
-    {
+    {   System.out.println("Информация из XML-файла:");
         try {
             File file = new File(filename);
             JAXBContext context = JAXBContext.newInstance(dog.class);

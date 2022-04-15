@@ -13,8 +13,7 @@ import java.util.*;
 import static com.company.delete.*;
 import static com.company.delete.delfile;
 import static com.company.json.*;
-import static com.company.txt.in_txt_file;
-import static com.company.txt.out_delete_txt;
+import static com.company.txt.*;
 import static com.company.xml.XmlRead;
 import static com.company.xml.XmlWrite;
 import static com.company.zip.unzip;
@@ -90,11 +89,16 @@ public class BigDz1 {
 
         System.out.println(getInfo());
         printinfo();
+        System.out.println("\n");
 
+        System.out.println("Введите строку для ввода в txt-файл:");
         Scanner in = new Scanner(System.in);
         String string = in.nextLine();
         in_txt_file(string);
-        out_delete_txt();
+        System.out.println("Информация из созданного txt-файла:");
+        out_txt("notes3.txt");
+        delfile("notes3.txt");
+        System.out.println("\n");
 
         String filen= "kek.json";
         writeJsonSimpleDemo(filen);
@@ -102,17 +106,25 @@ public class BigDz1 {
         js_write(User1);
         js_read_del();
         delfile("temp.json");
+        System.out.println("\n");
 
         XmlWrite("xmlDogFile.xml");
         XmlRead("xmlDogFile.xml");
         delfile("xmlDogFile.xml");
+        System.out.println("\n");
 
+        System.out.println("Введите название txt-файла, который подлежит архивации:");
         Scanner in2 = new Scanner(System.in);
         String string2 = in2.nextLine();
         zip2(string2);
         unzip();
+
+        Path txtfile = Paths.get("src\\unzipTest\\tozip.txt");
+        System.out.println("Информация из Разархивированного txt-файла:");
+        out_txt(txtfile.toString());
+        System.out.println("\n");
         delfile("compressed.zip");
-        Path pathToBeDeleted = Paths.get("C:\\Users\\Den\\IdeaProjects\\First\\src\\unzipTest");
+        Path pathToBeDeleted = Paths.get("src\\unzipTest");
         deleteDirectory(pathToBeDeleted.toFile());
 
     }

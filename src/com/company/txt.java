@@ -22,9 +22,9 @@ public class txt {
             System.out.println(ex.getMessage());
         }
     }
-    public static void out_delete_txt() {
+    public static void out_txt(String filename) {
 
-        try(FileReader reader = new FileReader("notes3.txt"))
+        try(FileReader reader = new FileReader(filename))
         {
             // читаем посимвольно
             int c;
@@ -37,7 +37,7 @@ public class txt {
 
             System.out.println(ex.getMessage());
         }
-        delfile("notes3.txt");
+
 
     }
 }
