@@ -103,9 +103,11 @@ public class BigDz1 {
         String filen= "kek.json";
         writeJsonSimpleDemo(filen);
         user User1=new user("username",41231);
-        js_write(User1);
-        js_read_del();
-        delfile("temp.json");
+        json.truejs_wr(User1);
+        json.truejs_rr("sup.json");
+        //js_write(User1);
+        //js_read_del();
+        //delfile("temp.json");
         System.out.println("\n");
 
         XmlWrite("xmlDogFile.xml");

@@ -12,5 +12,6 @@
     <orderEntry type="library" name="javax.xml.bind.activation" level="project" />
     <orderEntry type="library" name="sun.xml.bind.jaxb.impl" level="project" />
     <orderEntry type="library" name="sun.xml.bind.jaxb.osgi" level="project" />
+    <orderEntry type="library" name="google.code.gson" level="project" />
   </component>
 </module>
